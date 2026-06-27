@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Smart Debentures — Prévia</title>
+<style>
+  :root{
+    --verde:#0E8E4A; --verde2:#0B6E3A; --bg:#F5F7FA; --card:#FFFFFF;
+    --line:#E9EDF2; --txt:#1A1F26; --muted:#6B7682; --laranja:#E07A00;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
+  body{background:linear-gradient(135deg,#dfe7ef,#eef2f7);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:24px 12px;color:var(--txt);}
+  .titulo-pagina{margin-bottom:16px;text-align:center;}
+  .titulo-pagina h1{font-size:20px;}
+  .titulo-pagina p{color:#5a6470;font-size:13px;margin-top:4px;}
+  .phone{width:390px;max-width:100%;height:780px;background:var(--bg);border-radius:38px;border:10px solid #11161d;box-shadow:0 30px 60px rgba(0,0,0,.35);overflow:hidden;position:relative;display:flex;flex-direction:column;}
+  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:150px;height:26px;background:#11161d;border-radius:0 0 16px 16px;z-index:5;}
+  .screen{flex:1;overflow-y:auto;padding:42px 18px 86px;}
+  .hidden{display:none;}
+  /* header */
+  .header{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+  .avatar{width:44px;height:44px;border-radius:50%;background:rgba(14,142,74,.15);display:flex;align-items:center;justify-content:center;color:var(--verde);font-size:22px;}
+  .header .small{font-size:12px;color:var(--muted);}
+  .header .name{font-size:17px;font-weight:700;}
+  .header .acts{margin-left:auto;color:#4a5560;font-size:18px;display:flex;gap:12px;}
+  /* hero */
+  .hero{background:linear-gradient(135deg,var(--verde),var(--verde2));border-radius:24px;padding:20px;color:#fff;box-shadow:0 12px 28px rgba(14,142,74,.30);}
+  .hero .lbl{opacity:.85;font-size:13px;}
+  .hero .big{font-size:31px;font-weight:800;margin-top:4px;}
+  .hero .trend{margin-top:6px;font-weight:600;font-size:14px;display:flex;align-items:center;gap:5px;}
+  .hero svg{display:block;margin-top:12px;width:100%;height:70px;}
+  .hero .dia{opacity:.85;font-size:12px;margin-top:6px;}
+  /* grid */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+  .mini{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;}
+  .mini .ic{font-size:16px;}
+  .mini .t{font-size:12px;color:var(--muted);margin-top:6px;}
+  .mini .v{font-size:15px;font-weight:700;margin-top:2px;}
+  .v-verde{color:var(--verde);} .v-laranja{color:var(--laranja);}
+  /* secao */
+  .sec-tit{font-size:18px;font-weight:700;margin:24px 0 12px;}
+  .tabs{display:flex;gap:6px;margin-bottom:12px;}
+  .tab{flex:1;text-align:center;padding:10px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--muted);font-weight:600;font-size:13px;cursor:pointer;}
+  .tab.on{background:var(--verde);color:#fff;border-color:var(--verde);}
+  .ext{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px 15px;margin-bottom:8px;}
+  .ext .box{width:34px;height:34px;border-radius:10px;background:rgba(14,142,74,.12);color:var(--verde);display:flex;align-items:center;justify-content:center;font-size:16px;}
+  .ext .ti{font-weight:600;font-size:14px;}
+  .ext .su{color:#9aa4ad;font-size:12px;}
+  .ext .val{margin-left:auto;color:var(--verde);font-weight:700;}
+  /* botao */
+  .btn{width:100%;border:none;background:var(--verde);color:#fff;padding:16px;border-radius:16px;font-size:15px;font-weight:700;margin-top:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+  /* carteira */
+  .appbar{font-size:20px;font-weight:700;margin-bottom:16px;}
+  .deb{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:12px;box-shadow:0 4px 10px rgba(0,0,0,.03);}
+  .deb .top{display:flex;align-items:center;}
+  .deb .nome{font-size:16px;font-weight:700;flex:1;}
+  .badge{background:rgba(14,142,74,.12);color:var(--verde);font-size:11px;padding:3px 8px;border-radius:8px;}
+  .deb .aq{display:flex;align-items:center;gap:6px;color:var(--verde);font-weight:600;font-size:13px;margin-top:8px;}
+  .deb .rd{color:#9aa4ad;font-size:12px;margin-top:2px;}
+  .hr{height:1px;background:var(--line);margin:14px 0;}
+  .row{display:flex;justify-content:space-between;padding:3px 0;font-size:13px;}
+  .row .k{color:var(--muted);} .row .vv{font-weight:600;}
+  .row.dest .k{font-size:14px;font-weight:600;color:#333;} .row.dest .vv{font-size:16px;font-weight:800;color:var(--verde);}
+  /* nav */
+  .nav{position:absolute;bottom:0;left:0;right:0;height:66px;background:#fff;border-top:1px solid var(--line);display:flex;}
+  .nav button{flex:1;border:none;background:none;color:var(--muted);font-size:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;}
+  .nav button .i{font-size:20px;}
+  .nav button.on{color:var(--verde);font-weight:700;}
+</style>
+</head>
+<body>
+  <div class="titulo-pagina">
+    <h1>📈 Smart Debentures — Prévia do app</h1>
+    <p>Dados de exemplo. Toque em "Painel" e "Carteira" embaixo para navegar.</p>
+  </div>
+
+  <div class="phone">
+    <div class="notch"></div>
+
+    <!-- PAINEL -->
+    <div class="screen" id="scr-painel">
+      <div class="header">
+        <div class="avatar">📈</div>
+        <div>
+          <div class="small">Carteira de</div>
+          <div class="name">Cleuda Bastos</div>
+        </div>
+        <div class="acts"><span>⟳</span><span>⚙️</span></div>
+      </div>
+
+      <div class="hero">
+        <div class="lbl">Patrimônio líquido</div>
+        <div class="big" id="h-liq">R$ 0,00</div>
+        <div class="trend" id="h-trend">▲ R$ 0,00 (0%)</div>
+        <svg id="h-chart" viewBox="0 0 320 70" preserveAspectRatio="none"></svg>
+        <div class="dia" id="h-dia">Rende aprox. R$ 0,00 por dia</div>
+      </div>
+
+      <div class="grid" id="h-grid"></div>
+
+      <div class="sec-tit">Extrato de rendimentos</div>
+      <div class="tabs">
+        <div class="tab on" data-modo="dia" onclick="setModo('dia',this)">Dia</div>
+        <div class="tab" data-modo="mes" onclick="setModo('mes',this)">Mês</div>
+        <div class="tab" data-modo="per" onclick="setModo('per',this)">Personalizado</div>
+      </div>
+      <div id="h-extrato"></div>
+
+      <button class="btn" onclick="go('carteira')">👛 Abrir carteira (2)</button>
+    </div>
+
+    <!-- CARTEIRA -->
+    <div class="screen hidden" id="scr-carteira">
+      <div class="appbar">← Carteira</div>
+      <div id="c-lista"></div>
+    </div>
+
+    <div class="nav">
+      <button class="on" id="nav-painel" onclick="go('painel')"><span class="i">🏠</span>Painel</button>
+      <button id="nav-carteira" onclick="go('carteira')"><span class="i">👛</span>Carteira</button>
+    </div>
+  </div>
+
+<script>
+const APORTES = [
+  {nome:"Debênture Energia XPTO", aquisicao:"2026-01-01", valor:10000, taxa:1.1, isenta:true},
+  {nome:"Debênture Banco Y",      aquisicao:"2026-02-15", valor:5000,  taxa:1.3, isenta:false},
+];
+const HOJE = new Date();
+const BRL = n => new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(n);
+const d0 = s => { const p=s.split('-'); return new Date(+p[0],+p[1]-1,+p[2]); };
+const dias = (a,b) => Math.floor((stripTime(b)-stripTime(a))/86400000);
+const stripTime = d => new Date(d.getFullYear(),d.getMonth(),d.getDate());
+function aliq(d){ if(d<=180)return .225; if(d<=360)return .20; if(d<=720)return .175; return .15; }
+function saldoEm(a,ref){ const dd=dias(d0(a.aquisicao),ref); if(dd<0)return 0; const td=Math.pow(1+a.taxa/100,1/30)-1; return a.valor*Math.pow(1+td,dd); }
+function saldoCarteira(ref){ return APORTES.reduce((s,a)=>s+saldoEm(a,ref),0); }
+function rendDiaA(a){ const t=stripTime(HOJE); const amanha=new Date(t.getTime()+86400000); return saldoEm(a,amanha)-saldoEm(a,t); }
+
+function calc(a){
+  const dd=Math.max(0,dias(d0(a.aquisicao),HOJE));
+  const td=Math.pow(1+a.taxa/100,1/30)-1;
+  const saldo=a.valor*Math.pow(1+td,dd);
+  const rb=saldo-a.valor;
+  const al=a.isenta?0:aliq(dd);
+  const ir=rb>0?rb*al:0;
+  const rl=rb-ir;
+  return {a,dd,saldo,rb,al,ir,rl,liq:a.valor+rl,dia:rendDiaA(a)};
+}
+const RES = APORTES.map(calc).sort((x,y)=>y.liq-x.liq);
+const T = RES.reduce((t,r)=>({apl:t.apl+r.a.valor,saldo:t.saldo+r.saldo,rb:t.rb+r.rb,ir:t.ir+r.ir,liq:t.liq+r.liq,rl:t.rl+r.rl,dia:t.dia+r.dia}),{apl:0,saldo:0,rb:0,ir:0,liq:0,rl:0,dia:0});
+
+// hero
+document.getElementById('h-liq').textContent=BRL(T.liq);
+document.getElementById('h-trend').textContent=`▲ ${BRL(T.rl)} (${(T.rl/T.apl*100).toFixed(2)}%)`;
+document.getElementById('h-dia').textContent=`Rende aprox. ${BRL(T.dia)} por dia`;
+
+// chart
+(function(){
+  const menor = APORTES.map(a=>d0(a.aquisicao)).reduce((a,b)=>a<b?a:b);
+  const total = Math.max(1,dias(menor,HOJE));
+  const n=40, vals=[];
+  for(let i=0;i<n;i++){ const dia=new Date(stripTime(menor).getTime()+Math.round(total*i/(n-1))*86400000); vals.push(saldoCarteira(dia)); }
+  const min=Math.min(...vals),max=Math.max(...vals),rng=(max-min)||1;
+  const W=320,H=70;
+  const pts=vals.map((v,i)=>[W*i/(n-1), H-((v-min)/rng)*H*0.85-H*0.07]);
+  const line=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+  const fill=line+` L ${W} ${H} L 0 ${H} Z`;
+  document.getElementById('h-chart').innerHTML=
+    `<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+       <stop offset="0" stop-color="#ffffff" stop-opacity="0.35"/>
+       <stop offset="1" stop-color="#ffffff" stop-opacity="0"/></linearGradient></defs>
+     <path d="${fill}" fill="url(#g)"/>
+     <path d="${line}" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+     <circle cx="${pts[n-1][0].toFixed(1)}" cy="${pts[n-1][1].toFixed(1)}" r="4.5" fill="#fff"/>`;
+})();
+
+// grid
+const mini=(t,v,ic,cls='')=>`<div class="mini"><div class="ic">${ic}</div><div class="t">${t}</div><div class="v ${cls}">${BRL(v)}</div></div>`;
+document.getElementById('h-grid').innerHTML=
+  mini('Saldo bruto',T.saldo,'🏦')+
+  mini('Aplicado',T.apl,'💰')+
+  mini('Rend. bruto',T.rb,'📈','v-verde')+
+  mini('Rend. líquido',T.rl,'💵','v-verde')+
+  mini('IR retido',T.ir,'🧾','v-laranja');
+
+// extrato
+function rendPeriodo(ini,fim){ return APORTES.reduce((s,a)=>{ const aq=d0(a.aquisicao); const st=aq>ini?aq:ini; if(fim<st)return s; return s+saldoEm(a,fim)-saldoEm(a,st); },0); }
+function extDia(){ const out=[]; const t=stripTime(HOJE); for(let i=0;i<12;i++){ const dia=new Date(t.getTime()-i*86400000); const r=rendPeriodo(new Date(dia.getTime()-86400000),dia); if(r>0.005){ const ds=dia.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'}); const dw=dia.toLocaleDateString('pt-BR',{weekday:'long'}); out.push([`${ds} • ${dw}`,r]); } } return out; }
+function extMes(){ const out=[]; const menor=APORTES.map(a=>d0(a.aquisicao)).reduce((a,b)=>a<b?a:b); let y=menor.getFullYear(),m=menor.getMonth(); const ty=HOJE.getFullYear(),tm=HOJE.getMonth(); while(y<ty||(y===ty&&m<=tm)){ const ini=new Date(y,m,1); const prox=new Date(y,m+1,1); const fim=prox>stripTime(HOJE)?stripTime(HOJE):new Date(prox.getTime()-86400000); const r=rendPeriodo(new Date(ini.getTime()-86400000),fim); if(r>0.005){ out.push([ini.toLocaleDateString('pt-BR',{month:'long',year:'numeric'}),r]); } m++; if(m>11){m=0;y++;} } return out.reverse(); }
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+function renderExtrato(modo){
+  let itens;
+  if(modo==='per'){ const ini=new Date(stripTime(HOJE).getTime()-7*86400000); itens=[[`${ini.toLocaleDateString('pt-BR')} → ${HOJE.toLocaleDateString('pt-BR')}`,rendPeriodo(ini,stripTime(HOJE))]]; }
+  else itens = modo==='dia'?extDia():extMes();
+  document.getElementById('h-extrato').innerHTML = itens.map(([t,v])=>
+    `<div class="ext"><div class="box">↗</div><div><div class="ti">${cap(t)}</div><div class="su">Rendimento bruto</div></div><div class="val">+ ${BRL(v)}</div></div>`
+  ).join('') || `<div class="ext"><div class="su">Sem rendimento no período.</div></div>`;
+}
+function setModo(m,el){ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on')); el.classList.add('on'); renderExtrato(m); }
+renderExtrato('dia');
+
+// carteira
+document.getElementById('c-lista').innerHTML = RES.map(r=>{
+  const a=r.a;
+  const aqStr=d0(a.aquisicao).toLocaleDateString('pt-BR');
+  const irLabel = a.isenta?'Imposto retido':`Imposto retido (${(r.al*100).toFixed(1)}%)`;
+  const irVal = a.isenta?'Isento':BRL(r.ir);
+  return `<div class="deb">
+    <div class="top"><div class="nome">${a.nome}</div>${a.isenta?'<div class="badge">Isenta IR</div>':''}</div>
+    <div class="aq">📅 Adquirida em ${aqStr}</div>
+    <div class="rd">Rende aprox. ${BRL(r.dia)} por dia</div>
+    <div class="hr"></div>
+    <div class="row"><span class="k">Valor aplicado</span><span class="vv">${BRL(a.valor)}</span></div>
+    <div class="row"><span class="k">Saldo bruto</span><span class="vv">${BRL(r.saldo)}</span></div>
+    <div class="row"><span class="k">Rendimento bruto</span><span class="vv" style="color:var(--verde)">${BRL(r.rb)}</span></div>
+    <div class="row"><span class="k">${irLabel}</span><span class="vv" style="color:var(--laranja)">${irVal}</span></div>
+    <div class="hr"></div>
+    <div class="row dest"><span class="k">Rendimento líquido</span><span class="vv">${BRL(r.rl)}</span></div>
+  </div>`;
+}).join('');
+
+// nav
+function go(tela){
+  document.getElementById('scr-painel').classList.toggle('hidden',tela!=='painel');
+  document.getElementById('scr-carteira').classList.toggle('hidden',tela!=='carteira');
+  document.getElementById('nav-painel').classList.toggle('on',tela==='painel');
+  document.getElementById('nav-carteira').classList.toggle('on',tela==='carteira');
+}
+</script>
+</body>
+</html>
